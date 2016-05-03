@@ -1,5 +1,7 @@
 package funcionario;
 
+import java.time.LocalDate;
+
 public class Funcionario {
 	private String nome;
 	private String datanascimento;
@@ -7,8 +9,8 @@ public class Funcionario {
 	private String senha;
 	
 	public Funcionario (String nome, String datanascimento) {
-		this.setNome(nome);
-		this.setDatanascimento(datanascimento);
+		this.nome = nome;
+		this.datanascimento = datanascimento;
 	}
 
 	public String getNome() {

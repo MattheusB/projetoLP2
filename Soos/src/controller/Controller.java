@@ -31,7 +31,7 @@ public class Controller {
 	}
 	
 	public boolean realizaLogin(String matricula){
-		//Não entendi muito bem essa parada de logout e fecha sistema. Vou perguntar a Gerson
+		//Nï¿½o entendi muito bem essa parada de logout e fecha sistema. Vou perguntar a Gerson
 		return true;
 	}
 	
@@ -92,7 +92,7 @@ public class Controller {
 	}
 	
 	// Metodo altera senha que primeiramente verifica a matricula e se for igual a matricula do usuario
-	// que está usando o sistema ele terá acesso a parte de alterar senha;
+	// que estï¿½ usando o sistema ele terï¿½ acesso a parte de alterar senha;
 	public void alteraSenha(String senha, String matricula, String novaSenha) throws Exception{
 		Funcionario funcionario = verificaFuncionario(matricula);
 		if(funcionario.getSenha().equalsIgnoreCase(senha)){
@@ -108,13 +108,13 @@ public class Controller {
 	}
 	
 	// Metodo que altera a data de nascimento;
-	public void alteraData(LocalDate data, String matricula){
+	public void alteraData(String data, String matricula){
 		Funcionario funcionario = verificaFuncionario(matricula);
 		funcionario.setDatanascimento(data);
 	}
 
 	// Metodo que Exclui funcionario;
-	// Como já foi dito acima, "funcionarios" precisa de uma parte de brito;
+	// Como jï¿½ foi dito acima, "funcionarios" precisa de uma parte de brito;
 	public void excluiFuncionario(String matricula, String senhaDiretor){
 		Funcionario funcionario = verificaFuncionario(matricula);
 		if(funcionario.getSenha().equalsIgnoreCase(senhaDiretor)){
@@ -122,18 +122,18 @@ public class Controller {
 		}
 	}
 	
-	// Metodo que verifica se a nova senha que o usuario irá criar está válida;
+	// Metodo que verifica se a nova senha que o usuario irï¿½ criar estï¿½ vï¿½lida;
 	public boolean verificaSenha(String senha)throws Exception{
-		if (senha.length() < 6 || senha.length() > 12) {
-			throw new Exception("Tamanho da senha deve estar entre 6 - 12 caracteres.");
+		if (senha.length() < 8 || senha.length() > 12) {
+			throw new Exception("Tamanho da senha deve estar entre 8 - 12 caracteres.");
 		}
 		return true;
 	}
 	
-	// Metodo que verifica se o novo nome que o usuario irá criar está válida;
+	// Metodo que verifica se o novo nome que o usuario irï¿½ criar estï¿½ vï¿½lida;
 	public boolean verificaNome(String nome)throws Exception{
 		if (nome.length() > 16){
-			throw new Exception("Tamanho máximo são 16 caracteres.");
+			throw new Exception("Tamanho maximo e 16 caracteres.");
 		}
 		return true;
 	}

@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public class Prontuario {
 	
-	private ArrayList prontuarios;
+	private ArrayList<Paciente> prontuarios;
 	private int qntdpacientes = 0;
 	public Prontuario(){
-		prontuarios  = new ArrayList<Paciente>();
+	prontuarios  = new ArrayList<Paciente>();
 	}
 	
 	public void criarPaciente(String nome, String dataDeNacimento, double peso, String tipoSanguineo, String sexo, String genero){
