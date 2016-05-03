@@ -1,6 +1,0 @@
-package farmacia;
-
-public enum Categoria {
-	ANALGESICO, ANTIBIOTICO, ANTIEMETICO,
-	ANTIINFLAMATORIO, ANTITERMICO, HORMONAL;
-}
