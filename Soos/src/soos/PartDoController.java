@@ -4,7 +4,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class metodosGabriel {
+public class PartDoController {
 
 	// Metodo que retorna um funcionario da Lista buscando a partir da matricula;
 		// "funcionarios" é uma arryList que está faltando pois precisa da parte de brito;
