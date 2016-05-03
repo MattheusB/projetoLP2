@@ -1,6 +1,7 @@
 package farmacia;
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 /**
  * Classe "Medicamento"
  * @author victor
@@ -11,17 +12,33 @@ import java.util.ArrayList;
  * classes que herdam desta classe-mãe.
  */
 
-public class Medicamento {
+public class Medicamento implements Comparable<Medicamento>{
 	private String nome;
 	private double preco;
 	private int quantidade;
-	private ArrayList<Categoria> categorias;
+	private LinkedList<Categoria> categorias;
 	
-	public Medicamento (String nome, double preco, int quantidade, ArrayList<Categoria> categorias) {
+	public Medicamento (String nome, double preco, int quantidade, LinkedList<Categoria> categorias) {
 		this.setNome(nome);
 		this.setPreco(preco);
 		this.setQuantidade(quantidade);
-		this.setCategorias(new ArrayList <Categoria> ());
+		this.categorias = categorias;
+	}
+	
+	public boolean verificaCategoria(Categoria categoria){
+		return this.categorias.contains(categoria);
+	}
+	
+	public void alterPreco(double preco){
+		this.setPreco(preco);
+	}
+	
+	public void addCategoria(Categoria categoria){
+		this.categorias.add(categoria);
+	}
+	
+	public String toString(){
+		return "Nome: " + this.nome + "\nPreco: "+  this.preco + "\nQuantidade: " + this.quantidade;
 	}
 
 	public String getNome() {
@@ -47,12 +64,23 @@ public class Medicamento {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-
-	public ArrayList<Categoria> getCategorias() {
-		return categorias;
+	
+	public int comparaNome(Medicamento novo){
+		return this.nome.compareTo(novo.getNome());
 	}
 
-	public void setCategorias(ArrayList<Categoria> categorias) {
-		this.categorias = categorias;
+	@Override
+	public int compareTo(Medicamento novo) {
+		if(this.preco > novo.getPreco()){
+			return 1;
+		}
+		if(this.preco < novo.getPreco()){
+			return -1;
+		}
+		return 0;
 	}
+
+	
+
+	
 }

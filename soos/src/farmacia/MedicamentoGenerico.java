@@ -1,6 +1,7 @@
 package farmacia;
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 
 /**
  * Classe "MedicamentoGenerico"
@@ -13,8 +14,15 @@ import java.util.ArrayList;
 
 public class MedicamentoGenerico extends Medicamento {
 
-	public MedicamentoGenerico(String nome, double preco, int quantidade, ArrayList<Categoria> categorias) {
+	public MedicamentoGenerico(String nome, double preco, int quantidade, LinkedList<Categoria> categorias) {
 		super(nome, preco, quantidade, categorias);
+		calculaPreco();
+	}
+	
+	private void calculaPreco(){
+		double novopreco = this.getPreco();
+		novopreco -= this.getPreco() * 0.4;
+		this.setPreco(novopreco);
 	}
 
 }

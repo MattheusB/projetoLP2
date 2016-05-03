@@ -28,116 +28,143 @@ public class Farmacia {
 		}
 	}
 
-	public void adicionaCategoria (Medicamento m, String categoria) throws Exception {
-		if (categoria.equals("Analgésico")) {
-			m.getCategorias().add(Categoria.ANALGESICO);
+	public Medicamento atualizaMedicamento (String nome, String atributo, String novovalor) throws Exception {
+		Medicamento novo = verificaMedicamento(nome);
+		if (atributo.equals("nome")) {
+	       if (atributo.equals(novo.getNome())) {
+	        	throw new Exception("Erro ao atualizar medicamento. Nome do medicamento nao pode ser alterado.");
+	        }
+			novo.setNome(novovalor);
+			return novo;
 		}
-		if (categoria.equals("Antibiótico")) {
-			m.getCategorias().add(Categoria.ANTIBIOTICO);
-		}
-		if (categoria.equals("Antiemético")) {
-			m.getCategorias().add(Categoria.ANTIEMETICO);
-		}
-		if (categoria.equals("Anti-inflamatório")) {
-			m.getCategorias().add(Categoria.ANTIINFLAMATORIO);
-		}
-		if (categoria.equals("Antitérmico")) {
-			m.getCategorias().add(Categoria.ANTITERMICO);
-		}
-		if (categoria.equals("Hormonal")) {
-			m.getCategorias().add(Categoria.HORMONAL);
-		}
-		else {
-			throw new Exception("A categoria não existe no sistema.");
-		}
-	}
-
-
-	public Medicamento buscaPorNome(String nome) {
-		for (Medicamento m: estoque) {
-			if (nome.equals(m.getNome())) {
-				return m;
+		if (atributo.equals("preco")) {
+			if (atributo.equals(novo.getPreco())) {
+				throw new Exception("Erro ao atualizar medicamento. Preco do medicamento nao pode ser alterado.");
 			}
+			novo.setPreco(Double.parseDouble(novovalor));
+			return novo;
 		}
-		return null;
+		if (atributo.equals("quantidade")) {
+			if (atributo.equals(novo.getQuantidade())) {
+				throw new Exception("Erro ao atualizar medicamento. Quantidade do medicamento nao pode ser alterada.");
+			}
+			novo.setQuantidade(Integer.parseInt(novovalor));
+			return novo;
+		}
+		if (atributo.equals("tipo")) {
+			if (atributo.equals("generico")) {
+				if (novo instanceof MedicamentoGenerico) {
+					throw new Exception("Erro ao atualizar medicamento. Tipo do medicamento nao pode ser alterado.");
+				}
+				novo = (MedicamentoGenerico) novo;
+				return novo;
+			}
+			if (atributo.equals("de referencia")) {
+				if (novo instanceof MedicamentoDeReferencia) {
+					throw new Exception("Erro ao atualizar medicamento. Tipo do medicamento nao pode ser alterado.");
+				}
+				novo = (MedicamentoDeReferencia) novo;
+				return novo;
+			}
+		} throw new Exception("Erro ao atualizar medicamento. Medicamento nao cadastrado.");
+	}
+		
+	
+	public void adicionaCategoria (String nome, String categoria) throws Exception {
+		Medicamento novo = verificaMedicamento(nome);
+		Categoria categorias = verificaCategoria(categoria);
+		novo.addCategoria(categorias);
+	}
+	
+	public void alteraPreco(String nome,double preco)throws Exception{
+		Medicamento medicamento = verificaMedicamento(nome);
+		medicamento.alterPreco(preco);
 	}
 
-	public ArrayList<String> buscaPorCategoria(String categoria) {
 
+	public String buscaPorNome(String nome) throws Exception {
+		Medicamento novo = verificaMedicamento(nome);
+		return novo.toString();
+	}
+
+	public ArrayList<Medicamento> buscaPorCategoria(String categoria)throws Exception {
 		ArrayList<Medicamento> listaMedicamentos = new ArrayList<Medicamento> ();
-
-		if (categoria.equals("Analgésico")) {
-			for (Medicamento m: estoque) {
-				if (m.getCategorias().equals(Categoria.ANALGESICO)) {
-					listaMedicamentos.add(m);
+		boolean encontra = false;
+		Categoria categorias = verificaCategoria(categoria);
+		for(Medicamento novomedicamento : estoque){
+				if(novomedicamento.verificaCategoria(categorias)){
+					listaMedicamentos.add(novomedicamento);
+					encontra = true;
 				}
 			}
+		if (encontra == false) {
+			throw new Exception("Erro na consulta de medicamentos. Nao ha remedios cadastrados nessa categoria.");
 		}
-		if (categoria.equals("Antibiótico")) {
-			for (Medicamento m: estoque) {
-				if (m.getCategorias().equals(Categoria.ANTIBIOTICO)) {
-					listaMedicamentos.add(m);
-				}
-			}
-			if (categoria.equals("Antiemético")) {
-				for (Medicamento m: estoque) {
-					if (m.getCategorias().equals(Categoria.ANTIEMETICO)) {
-						listaMedicamentos.add(m);
-					}
-				}
-			}
-			if (categoria.equals("Anti-inflamatório")) {
-				for (Medicamento m: estoque) {
-					if (m.getCategorias().equals(Categoria.ANTIINFLAMATORIO)) {
-						listaMedicamentos.add(m);
-					}
-				}
-			}
-			if (categoria.equals("Antitérmico")) {
-				for (Medicamento m: estoque) {
-					if (m.getCategorias().equals(Categoria.ANTITERMICO)) {
-						listaMedicamentos.add(m);
-					}
-				}
-			}
-			if (categoria.equals("Hormonal")) {
-				for (Medicamento m: estoque) {
-					if (m.getCategorias().equals(Categoria.HORMONAL)) {
-						listaMedicamentos.add(m);
-					}
-				}
-			}
-
-			else {
-
-			}
-
-			for (int i = 0; i < listaMedicamentos.size(); i++) {
-				for (int j=0; j < listaMedicamentos.size(); j++) {
-					if (listaMedicamentos.get(i).getPreco() > listaMedicamentos.get(j).getPreco()) {
-						//listaMedicamentos.get(i), listaMedicamentos.get(j) = listaMedicamentos.get(j), listaMedicamentos.get(i);
-
-					}
-				}
-			}
+		Collections.sort(listaMedicamentos);
+		return listaMedicamentos;
 		}
-
+	
+	public ArrayList<Medicamento> buscaPorTodosMedicamentos(String ordenacao) throws Exception {
+		if (ordenacao.equals("preco")) {
+			return verificaRemediosPorPreco();
+		}
+		if (ordenacao.equals("alfabetica")) {
+			return verificaRemedioPorNome();
+		}
+		throw new Exception("Erro na consulta de medicamentos. Tipo de ordenacao invalida.");
 	}
 	
-	public ArrayList<String> verificaRemediosAlfabetico () {
-		ArrayList<String> lista = new ArrayList<String> ();
-		for (Medicamento m: estoque) {
-			lista.add(m.getNome());
-		}
-		Collections.sort(lista);
-		return lista;
+	public ArrayList<Medicamento> verificaRemedioPorNome () {
+		ComparaNome ordena = new ComparaNome();
+		Collections.sort(estoque,ordena);
+		return estoque;
 	}
 	
-	public ArrayList<String> verificaRemediosPorPreco () {
-		ArrayList<String> lista = new ArrayList<String> ();
-		for (Medicamento m: estoque) {
+	public ArrayList<Medicamento> verificaRemediosPorPreco () {
+		Collections.sort(estoque);
+		return estoque;
+		
+	}
+	
+	private Medicamento verificaMedicamento(String nome) throws Exception{
+		for (Medicamento novomedicamento: estoque) {
+			if (novomedicamento.getNome().equalsIgnoreCase(nome)) {
+				return novomedicamento;
+			}
+			}
+		throw new Exception("Erro na consulta de medicamentos. Medicamento nao cadastrado.");
+	}
+	
+	private Categoria verificaCategoria(String categoria) throws Exception{
+		if (categoria.equalsIgnoreCase("Analgesico")) {
+			return Categoria.ANALGESICO;
 			
 		}
 		
+		if (categoria.equalsIgnoreCase("Antibioticos")) {
+			return Categoria.ANTIBIOTICO;
+		}
+		
+		if (categoria.equalsIgnoreCase("Antiemetico")) {
+			return Categoria.ANTIEMETICO;
+		}
+		
+		if (categoria.equalsIgnoreCase("Anti-Inflamatorio")) {
+			return Categoria.ANTIINFLAMATORIO;
+		}
+		
+		if (categoria.equalsIgnoreCase("Antitermico")) {
+			return Categoria.ANTITERMICO;
+		}
+		
+		if (categoria.equalsIgnoreCase("Hormonais")) {
+			return Categoria.HORMONAL;
+		}
+		
+		throw new Exception("Erro na consulta de medicamentos. Categoria invalida.");
+		
+		
 	}
+	
+	
 }
